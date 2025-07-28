@@ -1,11 +1,11 @@
-# cloudmersive-barcodeapi-client
+# cloudmersive-spamapi-client
 
-CloudmersiveBarcodeapiClient - JavaScript client for cloudmersive-barcodeapi-client
-Barcode APIs let you generate barcode images, and recognize values from images of barcodes.
-[Cloudmersive Barcode API](https://www.cloudmersive.com/barcode-api) provides advanced barcode generation, lookup and recognition capabilities.
+CloudmersiveSpamapiClient - JavaScript client for cloudmersive-spamapi-client
+Easily and directly scan and block spam security threats in input.
+[Cloudmersive Spam Detection API](https://cloudmersive.com/spam-detection-api) provides advanced AI spam detection capabilities.
 
 - API version: v1
-- Package version: 1.2.0
+- Package version: 2.0.0
 
 
 ## Installation
@@ -20,7 +20,7 @@ please follow the procedure in ["Publishing npm packages"](https://docs.npmjs.co
 Then install it via:
 
 ```shell
-npm install cloudmersive-barcodeapi-client --save
+npm install cloudmersive-spamapi-client --save
 ```
 
 ##### Local development
@@ -38,13 +38,13 @@ Next, [link](https://docs.npmjs.com/cli/link) it globally in npm with the follow
 npm link
 ```
 
-Finally, switch to the directory you want to use your cloudmersive-barcodeapi-client from, and run:
+Finally, switch to the directory you want to use your cloudmersive-spamapi-client from, and run:
 
 ```shell
 npm link /path/to/<JAVASCRIPT_CLIENT_DIR>
 ```
 
-You should now be able to `require('cloudmersive-barcodeapi-client')` in javascript files from the directory you ran the last 
+You should now be able to `require('cloudmersive-spamapi-client')` in javascript files from the directory you ran the last 
 command above from.
 
 #### git
@@ -93,9 +93,9 @@ module: {
 Please follow the [installation](#installation) instruction and execute the following JS code:
 
 ```javascript
-var CloudmersiveBarcodeapiClient = require('cloudmersive-barcodeapi-client');
+var CloudmersiveSpamapiClient = require('cloudmersive-spamapi-client');
 
-var defaultClient = CloudmersiveBarcodeapiClient.ApiClient.instance;
+var defaultClient = CloudmersiveSpamapiClient.ApiClient.instance;
 
 // Configure API key authorization: Apikey
 var Apikey = defaultClient.authentications['Apikey'];
@@ -103,10 +103,11 @@ Apikey.apiKey = "YOUR API KEY"
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
 //Apikey.apiKeyPrefix['Apikey'] = "Token"
 
-var api = new CloudmersiveBarcodeapiClient.BarcodeLookupApi()
+var api = new CloudmersiveSpamapiClient.SpamDetectionApi()
 
-var value = "value_example"; // {String} Barcode value
-
+var opts = { 
+  'body': new CloudmersiveSpamapiClient.SpamDetectionAdvancedRequest() // {SpamDetectionAdvancedRequest} Spam detection request
+};
 
 var callback = function(error, data, response) {
   if (error) {
@@ -115,33 +116,26 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.barcodeLookupEanLookup(value, callback);
+api.spamDetectTextStringAdvancedPost(opts, callback);
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.cloudmersive.com*
+All URIs are relative to *https://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*CloudmersiveBarcodeapiClient.BarcodeLookupApi* | [**barcodeLookupEanLookup**](docs/BarcodeLookupApi.md#barcodeLookupEanLookup) | **POST** /barcode/lookup/ean | Lookup EAN barcode value, return product data
-*CloudmersiveBarcodeapiClient.BarcodeScanApi* | [**barcodeScanImage**](docs/BarcodeScanApi.md#barcodeScanImage) | **POST** /barcode/scan/image | Scan and recognize an image of a barcode
-*CloudmersiveBarcodeapiClient.BarcodeScanApi* | [**barcodeScanImageAdvancedQR**](docs/BarcodeScanApi.md#barcodeScanImageAdvancedQR) | **POST** /barcode/scan/image/advanced/qr | Advanced AI scan and recognition of an image of one or more QR barcodes
-*CloudmersiveBarcodeapiClient.GenerateBarcodeApi* | [**generateBarcodeEAN13**](docs/GenerateBarcodeApi.md#generateBarcodeEAN13) | **POST** /barcode/generate/ean-13 | Generate a EAN-13 code barcode as PNG file
-*CloudmersiveBarcodeapiClient.GenerateBarcodeApi* | [**generateBarcodeEAN8**](docs/GenerateBarcodeApi.md#generateBarcodeEAN8) | **POST** /barcode/generate/ean-8 | Generate a EAN-8 code barcode as PNG file
-*CloudmersiveBarcodeapiClient.GenerateBarcodeApi* | [**generateBarcodeQRCode**](docs/GenerateBarcodeApi.md#generateBarcodeQRCode) | **POST** /barcode/generate/qrcode | Generate a QR code barcode as PNG file
-*CloudmersiveBarcodeapiClient.GenerateBarcodeApi* | [**generateBarcodeUPCA**](docs/GenerateBarcodeApi.md#generateBarcodeUPCA) | **POST** /barcode/generate/upc-a | Generate a UPC-A code barcode as PNG file
-*CloudmersiveBarcodeapiClient.GenerateBarcodeApi* | [**generateBarcodeUPCE**](docs/GenerateBarcodeApi.md#generateBarcodeUPCE) | **POST** /barcode/generate/upc-e | Generate a UPC-E code barcode as PNG file
+*CloudmersiveSpamapiClient.SpamDetectionApi* | [**spamDetectTextStringAdvancedPost**](docs/SpamDetectionApi.md#spamDetectTextStringAdvancedPost) | **POST** /spam/detect/text-string/advanced | Perform advanced AI spam detection and classification against input text string.  Analyzes input content as well as embedded URLs with AI deep learnign to detect spam, phishing and other unsafe content.  Uses 25-100 API calls depending on model selected.
+*CloudmersiveSpamapiClient.SpamDetectionApi* | [**spamDetectTextStringPost**](docs/SpamDetectionApi.md#spamDetectTextStringPost) | **POST** /spam/detect/text-string | Perform AI spam detection and classification against input text string.  Analyzes input content as well as embedded URLs with AI deep learnign to detect spam, phishing and other unsafe content.  Uses 25-75 API calls depending on model selected.
 
 
 ## Documentation for Models
 
- - [CloudmersiveBarcodeapiClient.BarcodeLookupResponse](docs/BarcodeLookupResponse.md)
- - [CloudmersiveBarcodeapiClient.BarcodeQRResultItem](docs/BarcodeQRResultItem.md)
- - [CloudmersiveBarcodeapiClient.BarcodeScanQRAdvancedResult](docs/BarcodeScanQRAdvancedResult.md)
- - [CloudmersiveBarcodeapiClient.BarcodeScanResult](docs/BarcodeScanResult.md)
- - [CloudmersiveBarcodeapiClient.ProductMatch](docs/ProductMatch.md)
+ - [CloudmersiveSpamapiClient.SpamDetectionAdvancedRequest](docs/SpamDetectionAdvancedRequest.md)
+ - [CloudmersiveSpamapiClient.SpamDetectionAdvancedResponse](docs/SpamDetectionAdvancedResponse.md)
+ - [CloudmersiveSpamapiClient.SpamDetectionRequest](docs/SpamDetectionRequest.md)
+ - [CloudmersiveSpamapiClient.SpamDetectionResponse](docs/SpamDetectionResponse.md)
 
 
 ## Documentation for Authorization
